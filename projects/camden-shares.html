@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camden Shares — Devika Sharma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--paper:#F7F4EF;--ink:#1C1A17;--clay:#C4673A;--clay-light:#EDD9CC;--clay-muted:#E8C4A8;--warm-mid:#8C7B6B;--warm-light:#EAE5DC;--dark:#1C1A17;--dark-card:#221F1A;--dark-line:#2a2721;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--ease:cubic-bezier(0.25,0.46,0.45,0.94)}
+    html{scroll-behavior:smooth}
+    body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden;cursor:none}
+    #cur,#cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);border-radius:50%}
+    #cur{width:9px;height:9px;background:var(--clay)}
+    #cur-ring{width:34px;height:34px;border:1.5px solid var(--clay);opacity:.45;transition:width .35s var(--ease),height .35s var(--ease)}
+    body.cursor-hover #cur-ring{width:52px;height:52px;opacity:.25}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(247,244,239,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--warm-light)}
+    .nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink);text-decoration:none}
+    .nav-back{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-mid);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s}
+    .nav-back:hover{color:var(--clay)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+    .reveal.on{opacity:1;transform:translateY(0)}
+    .delay-1{transition-delay:.12s}.delay-2{transition-delay:.24s}
+    .proj-hero{min-height:72vh;background:#E8C4A8;padding:140px 48px 72px;display:flex;flex-direction:column;justify-content:flex-end}
+    .proj-hero-inner{max-width:780px}
+    .proj-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;align-items:center}
+    .proj-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);border:1px solid var(--clay-muted);padding:4px 12px;background:rgba(247,244,239,.6)}
+    .proj-title{font-family:var(--serif);font-size:clamp(38px,5vw,68px);font-weight:300;line-height:1.08;color:var(--ink);margin-bottom:22px}
+    .proj-title em{font-style:italic;color:var(--clay)}
+    .proj-subtitle{font-size:17px;font-weight:300;color:var(--ink);opacity:.75;max-width:560px;line-height:1.65}
+    .proj-meta-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(140,123,107,.25);margin-top:56px;padding-top:28px}
+    .meta-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:6px}
+    .meta-value{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--ink)}
+    .full-img{width:100%}
+    .img-placeholder{width:100%;aspect-ratio:21/9;max-height:480px;background:var(--warm-light);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-mid)}
+    .proj-body{max-width:760px;margin:0 auto;padding:80px 48px}
+    .proj-section{margin-bottom:68px}
+    .proj-section-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+    .proj-section-label::after{content:'';flex:1;height:1px;background:var(--warm-light)}
+    .proj-section h2{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:300;color:var(--ink);line-height:1.25;margin-bottom:20px}
+    .proj-section p{font-size:15px;font-weight:300;color:var(--ink);line-height:1.8;margin-bottom:16px}
+    .proj-section p:last-child{margin-bottom:0}
+    .methods-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+    .method-tag{font-size:12px;font-weight:400;color:var(--ink);background:var(--warm-light);padding:8px 16px;letter-spacing:.04em}
+    .pull-quote{border-left:3px solid var(--clay);padding:20px 0 20px 28px;margin:40px 0}
+    .pull-quote p{font-family:var(--serif);font-size:clamp(20px,2.2vw,28px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.5;margin-bottom:12px}
+    .pull-quote cite{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--warm-mid);font-style:normal}
+    .outcome-box{background:var(--ink);padding:40px 44px;margin:40px 0}
+    .outcome-label{font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);margin-bottom:16px}
+    .outcome-box p{font-family:var(--serif);font-size:20px;font-weight:300;font-style:italic;color:var(--paper);line-height:1.55}
+    .img-grid{display:grid;gap:12px;margin:32px 0}
+    .img-grid.cols-2{grid-template-columns:1fr 1fr}
+    .img-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+    .img-grid .img-placeholder{aspect-ratio:4/3;max-height:none}
+    .img-caption{font-size:12px;color:var(--warm-mid);margin-top:8px;line-height:1.5;font-style:italic}
+    .reflection{background:var(--warm-light);padding:36px 40px;margin:40px 0}
+    .reflection-title{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:16px}
+    .reflection p{font-size:14px;font-weight:300;color:var(--warm-mid);line-height:1.75;margin-bottom:12px}
+    .reflection p strong{color:var(--ink);font-weight:500}
+    .next-project{padding:80px 48px;background:var(--warm-light);display:flex;justify-content:space-between;align-items:center}
+    .next-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:8px}
+    .next-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--ink);text-decoration:none;transition:color .3s}
+    .next-title:hover{color:var(--clay)}
+    .next-arrow{font-size:40px;color:var(--clay);text-decoration:none;transition:transform .3s var(--ease)}
+    .next-arrow:hover{transform:translateX(8px)}
+    footer{padding:28px 48px;background:var(--dark);border-top:1px solid var(--dark-line);display:flex;justify-content:space-between;align-items:center}
+    .footer-copy{font-size:12px;color:var(--warm-mid)}
+    .footer-links{display:flex;gap:24px}
+    .footer-links a{font-size:12px;color:var(--warm-mid);text-decoration:none;transition:color .3s}
+    .footer-links a:hover{color:var(--clay)}
+    @media(max-width:768px){body{cursor:auto}#cur,#cur-ring{display:none}nav{padding:18px 24px}.proj-hero{padding:120px 24px 56px}.proj-meta-strip{grid-template-columns:1fr 1fr;gap:24px}.proj-body{padding:60px 24px}.img-grid.cols-2,.img-grid.cols-3{grid-template-columns:1fr}.next-project{flex-direction:column;gap:24px;padding:60px 24px}footer{flex-direction:column;gap:16px;padding:24px}}
+  </style>
+</head>
+<body>
+  <div id="cur"></div><div id="cur-ring"></div>
+  <nav>
+    <a href="../index.html" class="nav-logo">Devika Sharma</a>
+    <a href="../index.html#work" class="nav-back">← All projects</a>
+  </nav>
+  <header class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-tags"><span class="proj-tag">Co-Design</span><span class="proj-tag">Ethnography</span><span class="proj-tag">Public Sector</span><span class="proj-tag">Reflective Practice</span></div>
+      <h1 class="proj-title">Camden Shares</h1>
+      <p class="proj-subtitle">Redesigning trust between Early Help workers and families in Camden — through ethnographic research and co-designed reflective practice tools that shifted how services listen.</p>
+      <div class="proj-meta-strip">
+        <div><p class="meta-label">Year</p><p class="meta-value">2021</p></div>
+        <div><p class="meta-label">Client / Context</p><p class="meta-value">Camden Council &amp; UAL</p></div>
+        <div><p class="meta-label">My Role</p><p class="meta-value">Researcher (team of 3) </p></div>
+        <div><p class="meta-label">Duration</p><p class="meta-value">6 months</p></div>
+      </div>
+    </div>
+  </header>
+  <div class="full-img"><img src="../images/camden-hero.jpg" alt="Camden Shares project" style="width:100%;display:block;object-fit:cover;max-height:480px;"</div></div>
+  <main class="proj-body">
+    <div class="proj-section reveal">
+      <p class="proj-section-label">The Challenge</p>
+      <h2>How might we rebuild trust between families and the services designed to help them?</h2>
+      <p>Camden Early Help was facing a critical problem: families who needed support were not accessing it. Frontline workers reported that trust was the central barrier. Services existed. Families were not engaging. The gap between what was offered and what was received was not a communication problem. It was a relationship problem.</p>
+<p>Our brief was to understand this gap from the inside, from the perspective of families and workers alike, and to design tools that could help bridge it.</p>
+    </div>
+    <div class="pull-quote reveal">
+      <p>"We offer the help. But they have to trust us enough to take it."</p>
+      <cite>Frontline worker, Camden Early Help</cite>
+    </div>
+    <div class="proj-section reveal">
+      <p class="proj-section-label">My Approach</p>
+      <h2>Listening before designing</h2>
+      <p>People are at the heart of participatory design, and the ethos of Camden Early Help. Therefore, it was imperative to immerse in user research that engaged with the various stakeholders such as industry experts, Camden Early Help providers, Changemaker families in Camden that volunteered to help improve the service and local communities in the borough.</p>
+<p>Co-design workshops were conducted using creative tools and methodologies to evoke Camden community members to express their emotions, share feedback in a manner that was sensitive, empathetic and provided people with the material engagement to be vulnerable and transparent. An integral part of the primary research process was to conduct one-on-one interviews with different stakeholders; experts, changemaker families volunteering to feedback the Camden Early Help services and local community residents. </p>
+      <div class="methods-list"><span class="method-tag">Ethnographic Observation</span><span class="method-tag">Semi-structured Interviews</span><span class="method-tag">Co-design Workshops</span><span class="method-tag">Reflective Practice Design</span><span class="method-tag">Journey Mapping</span><span class="method-tag">Stakeholder Synthesis</span><span class="method-tag">Participatory Action Research</span></div>
+    </div>
+   <div class="reveal" >
+  <img src="../images/camden-1.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+  <img src="../images/camden-2.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+    </div>
+    <div class="proj-section reveal">
+      <p class="proj-section-label">What I Did</p>
+      <h2>From insight to artefact</h2>
+      <p>Our idea culminated with the formation of a reflective model called 'Camden Shares.' 
+
+The idea is to transcend from a single loop learning which is reflection on the action taken. On the other hand, incorporating a double loop learning implies reflection beyond the actions taken and instead looking at the reasons why these were taken and the thought process behind it. This would assist the help providers to unearth the underlying assumptions, beliefs and social norms that trigger us to conduct the actions that we do.</p>
+<p>I also produced a synthesis presentation for senior leadership, translating the research into strategic recommendations that connected ground-level findings to systemic service design changes.</p>
+    </div>
+      <div class="reveal" >
+  <img src="../images/camden-4.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+  <img src="../images/camden-5.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+    </div>
+    <div class="proj-section reveal">
+      <p class="proj-section-label">Outcomes &amp; Impact</p>
+      <h2>What changed</h2>
+      <p>The reflective practice tools were presented to Camden Early Help and integrated into worker training. The synthesis presentation was delivered to senior leadership and described as one of the most impactful pieces of research the team had received.</p>
+<p>Beyond the immediate deliverables, the project shifted how the team thought about the design process itself — establishing co-design as a legitimate and valuable part of service development within Camden Early Help.</p>
+    </div>
+    <div class="outcome-box reveal">
+      <p class="outcome-label">Key outcome</p>
+      <p>"By far the best presentation I have seen in a long time. The voice of families is energising and inspiring. A great reminder to involve the people it matters to most. Thanks" - Head of Family Help, Camden Early Help </p>
+    </div>
+    </div>
+      <div class="reveal" >
+  <img src="../images/camden-6.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+  <img src="../images/camden-7.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+        <img src="../images/camden-8.jpg" style="width:100%;max-height:500px;object-fit:cover;display:block;margin-bottom:12px;" alt="Creative Host output" />
+    </div>
+    <div class="reflection reveal">
+      <h3 class="reflection-title">What I learned</h3>
+      <p>This project taught me that the most important design decisions are often not about outputs, they are about the design process. The act of doing the research alongside workers and families, rather than reporting back to them, was itself a form of service design.</p>
+<p>This project emerged with the brief to envision what good help looks like for the communities of Camden. As we delved into the research, we understood the complexity of the problems faced by help-seekers as they navigate through barriers of inequality and lack of trust. Therefore, Camden Shares aims to provide a meaningful strategy for the help providers to constantly reflect and evaluate their service. Authentic conversations, active listening and a transparent channel of communication between the help providers and seekers would help bridge the gap. Ultimately, the purpose is to create an ecosystem of trust involving empathy and compassion in Camden communities</p>
+<p><strong>If I were doing this again:</strong> I would honour the human aspect of service design. This project  deepened my conviction that trust is the foundational layer of any public service. You cannot design your way around a broken relationship. You have to start there.</p>
+    </div>
+  </main>
+  <div class="next-project">
+    <div><p class="next-label">Next project</p><a href="our-herd.html" class="next-title">Our Herd</a></div>
+    <a href="our-herd.html" class="next-arrow">→</a>
+  </div>
+  <footer>
+    <p class="footer-copy">© 2026 Devika Sharma · Service Designer &amp; User Researcher</p>
+    <div class="footer-links"><a href="../index.html">Home</a><a href="https://www.linkedin.com/in/devika-sharma-4a5a03180/" target="_blank">LinkedIn</a></div>
+  </footer>
+  <script>
+    const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring')
+    let mx=0,my=0,rx=0,ry=0
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'})
+    ;(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})()
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'))})
+    const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.1})
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el))
+  </script>
+</body>
+</html>

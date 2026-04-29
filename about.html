@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Devika Sharma</title>
+  <meta name="description" content="Service designer, user researcher, PhD, illustrator. A little spark to make the world a better place." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper:      #F7F4EF;
+      --ink:        #1C1A17;
+      --clay:       #C4673A;
+      --clay-light: #EDD9CC;
+      --clay-muted: #E8C4A8;
+      --warm-mid:   #8C7B6B;
+      --warm-light: #EAE5DC;
+      --dark:       #1C1A17;
+      --dark-card:  #221F1A;
+      --dark-line:  #2a2721;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --ease:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+    #cur, #cur-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); border-radius: 50%; }
+    #cur { width: 9px; height: 9px; background: var(--clay); }
+    #cur-ring { width: 34px; height: 34px; border: 1.5px solid var(--clay); opacity: .45; transition: width .35s var(--ease), height .35s var(--ease); }
+    body.cursor-hover #cur-ring { width: 52px; height: 52px; opacity: .25; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 22px 48px; display: flex; justify-content: space-between; align-items: center; background: rgba(247,244,239,.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--warm-light); }
+    .nav-logo { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-family: var(--sans); font-size: 11px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); text-decoration: none; position: relative; transition: color .3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--clay); transition: width .35s var(--ease); }
+    .nav-links a:hover { color: var(--clay); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--clay); }
+    .nav-links a.active::after { width: 100%; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.on { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .1s; } .delay-2 { transition-delay: .2s; } .delay-3 { transition-delay: .3s; }
+
+    /* HERO */
+    .about-hero { min-height: 100vh; padding: 140px 48px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .hero-greeting { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); margin-bottom: 24px; opacity: 0; animation: fadeUp .8s var(--ease) .2s forwards; }
+    .hero-name { font-family: var(--serif); font-size: clamp(52px, 6vw, 88px); font-weight: 300; line-height: 1.02; color: var(--ink); margin-bottom: 32px; opacity: 0; animation: fadeUp .9s var(--ease) .4s forwards; }
+    .hero-name em { font-style: italic; color: var(--clay); }
+    .hero-bio { font-family: var(--serif); font-size: clamp(18px, 2vw, 24px); font-weight: 300; line-height: 1.65; color: var(--warm-mid); margin-bottom: 40px; max-width: 480px; opacity: 0; animation: fadeUp .9s var(--ease) .6s forwards; }
+    .hero-bio strong { color: var(--ink); font-weight: 400; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; opacity: 0; animation: fadeUp .9s var(--ease) .8s forwards; }
+    .hero-tag-pill { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); border: 1px solid rgba(140,123,107,.4); padding: 5px 14px; }
+    .hero-photo-wrap { position: relative; opacity: 0; animation: fadeIn 1.2s var(--ease) .4s forwards; }
+    .hero-photo-main { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; display: block; }
+
+    /* STORY */
+    .story-section { padding: 120px 48px; display: grid; grid-template-columns: 200px 1fr; gap: 80px; }
+    .story-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); padding-top: 8px; }
+    .story-body p { font-family: var(--serif); font-size: clamp(18px, 1.9vw, 24px); font-weight: 300; line-height: 1.7; color: var(--ink); margin-bottom: 28px; }
+    .story-body p:last-child { margin-bottom: 0; }
+    .story-body strong { font-weight: 500; }
+    .story-body em { font-style: italic; color: var(--clay); }
+
+    /* PHOTO STRIP */
+    .photo-strip { padding: 0 0 100px; overflow: hidden; }
+    .photo-strip-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--warm-mid); padding: 0 48px; margin-bottom: 28px; }
+    .strip-track { display: flex; gap: 16px; animation: stripScroll 30s linear infinite; width: max-content; }
+    .strip-track:hover { animation-play-state: paused; }
+    .strip-img { height: 280px; width: auto; object-fit: cover; display: block; flex-shrink: 0; transition: filter .4s, transform .4s; }
+    .strip-img:hover { transform: scale(1.02); }
+    .strip-placeholder { height: 280px; width: 210px; flex-shrink: 0; background: var(--warm-light); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
+    .strip-placeholder span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--warm-mid); opacity: .6; text-align: center; padding: 0 16px; }
+    @keyframes stripScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* CURRENTLY */
+    .currently-section { padding: 100px 48px; background: var(--ink); }
+    .currently-header { margin-bottom: 56px; }
+    .currently-title { font-family: var(--serif); font-size: clamp(36px, 4vw, 56px); font-weight: 300; color: var(--paper); line-height: 1.1; }
+    .currently-title em { font-style: italic; color: var(--clay); }
+    .currently-sub { font-size: 13px; font-weight: 300; color: var(--warm-mid); margin-top: 12px; }
+    .currently-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--dark-line); }
+    .currently-card { background: var(--dark-card); padding: 36px 32px; transition: background .4s; position: relative; overflow: hidden; }
+    .currently-card:hover { background: #2a2620; }
+    .currently-card::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--clay); transition: width .5s var(--ease); }
+    .currently-card:hover::before { width: 100%; }
+    .currently-icon { font-size: 24px; margin-bottom: 16px; display: block; }
+    .currently-context { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--clay); margin-bottom: 10px; }
+    .currently-item { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--paper); line-height: 1.2; margin-bottom: 8px; }
+    .currently-detail { font-size: 12px; font-weight: 300; color: var(--warm-mid); line-height: 1.6; }
+
+    /* HOW I WORK */
+    .how-section { padding: 100px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .how-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); margin-bottom: 24px; }
+    .how-title { font-family: var(--serif); font-size: clamp(34px, 3.5vw, 52px); font-weight: 300; color: var(--ink); line-height: 1.1; margin-bottom: 32px; }
+    .how-title em { font-style: italic; color: var(--clay); }
+    .how-p { font-size: 15px; font-weight: 300; color: var(--warm-mid); line-height: 1.8; margin-bottom: 20px; }
+    .how-traits { display: flex; flex-direction: column; gap: 2px; }
+    .how-trait { background: var(--warm-light); padding: 24px 28px; display: flex; gap: 20px; align-items: flex-start; transition: background .3s; }
+    .how-trait:hover { background: var(--clay-light); }
+    .how-trait-num { font-family: var(--serif); font-size: 13px; font-style: italic; color: var(--clay); flex-shrink: 0; padding-top: 3px; }
+    .how-trait-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.65; }
+    .how-trait-text strong { font-weight: 500; }
+
+    /* BELIEFS */
+    .beliefs-section { padding: 100px 48px; background: var(--warm-light); }
+    .beliefs-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); margin-bottom: 48px; }
+    .beliefs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .belief { background: var(--paper); padding: 40px 36px; transition: background .4s; }
+    .belief:hover { background: var(--clay-light); }
+    .belief-num { font-family: var(--serif); font-size: 52px; font-weight: 300; color: var(--clay-muted); line-height: 1; margin-bottom: 16px; transition: color .4s; }
+    .belief:hover .belief-num { color: var(--clay); }
+    .belief-text { font-family: var(--serif); font-size: clamp(18px, 1.8vw, 22px); font-weight: 300; color: var(--ink); line-height: 1.5; }
+    .belief-text em { font-style: italic; color: var(--clay); }
+
+    /* ── EXPERIENCE & EDUCATION ─────────────────── */
+    .exp-edu-section { padding: 100px 48px; }
+
+    /* Shared section header */
+    .exp-header { display: grid; grid-template-columns: 200px 1fr; gap: 80px; margin-bottom: 64px; }
+    .exp-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); padding-top: 8px; }
+    .exp-intro { font-family: var(--serif); font-size: clamp(18px, 2vw, 26px); font-weight: 300; color: var(--ink); line-height: 1.55; }
+
+    /* Timeline entries */
+    .exp-list { display: flex; flex-direction: column; margin-bottom: 80px; }
+    .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 80px; padding: 40px 0; border-top: 1px solid var(--warm-light); }
+    .exp-item:last-child { border-bottom: 1px solid var(--warm-light); }
+    .exp-date { font-size: 12px; color: var(--warm-mid); letter-spacing: .06em; margin-bottom: 4px; }
+    .exp-org { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--clay); }
+    .exp-role { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: 16px; line-height: 1.2; }
+    .exp-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .exp-points li { font-size: 14px; font-weight: 300; color: var(--warm-mid); line-height: 1.7; padding-left: 16px; position: relative; }
+    .exp-points li::before { content: '→'; position: absolute; left: 0; color: var(--clay); font-size: 12px; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .exp-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--clay); border: 1px solid var(--clay-muted); padding: 3px 9px; }
+
+    /* Education entries — slightly different style */
+    .edu-item { display: grid; grid-template-columns: 200px 1fr; gap: 80px; padding: 36px 0; border-top: 1px solid var(--warm-light); }
+    .edu-item:last-child { border-bottom: 1px solid var(--warm-light); }
+    .edu-date { font-size: 12px; color: var(--warm-mid); letter-spacing: .06em; margin-bottom: 4px; }
+    .edu-inst { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--clay); }
+    .edu-degree { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: 8px; line-height: 1.2; }
+    .edu-grade { font-size: 13px; font-weight: 300; color: var(--warm-mid); margin-bottom: 8px; }
+    .edu-award { font-size: 13px; font-weight: 300; color: var(--ink); line-height: 1.65; font-style: italic; }
+
+    /* TOOLS */
+    .tools-section { padding: 80px 48px; background: var(--dark); }
+    .tools-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); margin-bottom: 40px; }
+    .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--dark-line); }
+    .tools-card { background: var(--dark-card); padding: 28px 28px; }
+    .tools-card-title { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--paper); margin-bottom: 12px; }
+    .tools-list { font-size: 12px; font-weight: 300; color: var(--warm-mid); line-height: 1.8; }
+
+    /* CONTACT */
+    .about-contact { padding: 100px 48px; background: var(--ink); display: flex; justify-content: space-between; align-items: center; }
+    .about-contact-title { font-family: var(--serif); font-size: clamp(36px, 4vw, 56px); font-weight: 300; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+    .about-contact-title em { font-style: italic; color: var(--clay); }
+    .about-contact-sub { font-size: 14px; font-weight: 300; color: var(--warm-mid); }
+    .about-contact-links { display: flex; gap: 16px; }
+    .about-contact-link { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper); text-decoration: none; border: 1px solid rgba(247,244,239,.2); padding: 12px 24px; transition: border-color .3s, background .3s; }
+    .about-contact-link:hover { background: var(--clay); border-color: var(--clay); }
+
+    footer { padding: 28px 48px; background: var(--dark); border-top: 1px solid var(--dark-line); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 12px; color: var(--warm-mid); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 12px; color: var(--warm-mid); text-decoration: none; transition: color .3s; }
+    .footer-links a:hover { color: var(--clay); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width: 860px) {
+      body { cursor: auto; } #cur, #cur-ring { display: none; }
+      nav { padding: 18px 24px; } .nav-links { gap: 20px; }
+      .about-hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 48px; }
+      .story-section { grid-template-columns: 1fr; gap: 20px; padding: 60px 24px; }
+      .currently-grid { grid-template-columns: 1fr 1fr; }
+      .how-section { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px; }
+      .beliefs-grid { grid-template-columns: 1fr; }
+      .beliefs-section, .tools-section { padding: 60px 24px; }
+      .exp-header, .exp-item, .edu-item { grid-template-columns: 1fr; gap: 12px; }
+      .exp-edu-section { padding: 60px 24px; }
+      .about-contact { flex-direction: column; gap: 40px; padding: 60px 24px; align-items: flex-start; }
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 16px; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Devika Sharma</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div>
+      <p class="hero-greeting">A little about me</p>
+      <h1 class="hero-name">Hi, I'm<br><em>Devika.</em></h1>
+      <p class="hero-bio">Service designer, user researcher, illustrator, and <strong>chronic postcard collector.</strong> I believe the smallest spark of curiosity about how people live can lead to the most meaningful change in the services that shape their lives.</p>
+      <div class="hero-tags">
+        <span class="hero-tag-pill">Service Designer</span>
+        <span class="hero-tag-pill">User Researcher</span>
+        <span class="hero-tag-pill">PhD Researcher</span>
+        <span class="hero-tag-pill">Illustrator</span>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <img src="images/devika.jpeg" alt="Devika Sharma" class="hero-photo-main" />
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story-section">
+    <div class="story-label reveal">The story</div>
+    <div class="story-body reveal delay-1">
+      <p>I came to service design through a simple, stubborn question: <em>why do so many services fail the people they are supposed to help?</em> That question led me to a PhD, three years of immersive participatory fieldwork, and a deep conviction that the answer almost always lives in the gap between what an organisation believes it offers and what a person actually experiences.</p>
+      <p>My practice is built on the belief that <strong>good research is the most strategic thing a designer can do.</strong> Before a blueprint, before a prototype, before a workshop. There is the considerate, careful work of genuinely listening. Of sitting with complexity long enough to understand it. That is where my strategic work begins.</p>
+      <p>Outside of work I am almost always reading something, planning the next trip, hunting for a postcard in a market somewhere, or deep in a crime drama. I think the best designers are endlessly curious about people, stories and the world. That curiosity and storytelling is what I bring to every project.</p>
+    </div>
+  </section>
+
+  <!-- PHOTO STRIP -->
+  <div class="photo-strip">
+    <p class="photo-strip-label reveal">A few snapshots</p>
+    <div class="strip-track">
+      <img src="images/about-one.jpg" class="strip-img" alt="Reading in the park" />
+      <img src="images/about-two.jpg" class="strip-img" alt="Postacards in Lille" />
+      <img src="images/about-three.jpg" class="strip-img" alt="PhD Awards" />
+      <img src="images/IMG_9309.JPG" class="strip-img" alt="Pilates class"/>
+      <img src="images/about1.jpg" class="strip-img" alt="Museums" />
+      <img src="images/about2.jpeg" class="strip-img" alt="Participatory lego exploration"/>
+      <img src="images/about-one.jpg" class="strip-img" alt="Reading in the park" />
+      <img src="images/about-two.jpg" class="strip-img" alt="Postacards in Lille" />
+      <img src="images/about-three.jpg" class="strip-img" alt="PhD Awards" />
+      <img src="images/IMG_9309.JPG" class="strip-img" alt="Pilates class"/>
+      <img src="images/about1.jpg" class="strip-img" alt="Museums" />
+      <img src="images/about2.jpeg" class="strip-img" alt="Participatory lego exploration"/>
+    </div>
+  </div>
+
+  <!-- CURRENTLY -->
+  <section class="currently-section">
+    <div class="currently-header reveal">
+      <h2 class="currently-title">Right <em>now</em></h2>
+      <p class="currently-sub">A living snapshot. Updated through the seasons of my life.</p>
+    </div>
+    <div class="currently-grid">
+      <div class="currently-card reveal">
+        <span class="currently-icon">📖</span>
+        <p class="currently-context">Currently reading</p>
+        <p class="currently-item">Butter</p>
+        <p class="currently-detail">Asako Yuzuki. Food, obsession, and the uncomfortable truths women are expected to swallow.</p>
+      </div>
+      <div class="currently-card reveal delay-1">
+        <span class="currently-icon">📺</span>
+        <p class="currently-context">Currently watching</p>
+        <p class="currently-item">Pluribus</p>
+        <p class="currently-detail">I have a feeling it'll make for interesting conversations with friends.</p>
+      </div>
+      <div class="currently-card reveal delay-2">
+        <span class="currently-icon">💻</span>
+        <p class="currently-context">Currently learning</p>
+        <p class="currently-item">Claude Code</p>
+        <p class="currently-detail">Teaching myself AI-assisted coding. Turns out a service designer who can build things is a useful thing to be.</p>
+      </div>
+      <div class="currently-card reveal">
+        <span class="currently-icon">✈️</span>
+        <p class="currently-context">Travelling to</p>
+        <p class="currently-item">Côte d'Azur</p>
+        <p class="currently-detail">Looking forward to the cerulean sea and charming towns of the French Riviera.</p>
+      </div>
+      <div class="currently-card reveal delay-1">
+        <span class="currently-icon">🍳</span>
+        <p class="currently-context">Cooking on repeat</p>
+        <p class="currently-item">Braised Gochujang Chicken</p>
+        <p class="currently-detail">The perfect weeknight meal!</p>
+      </div>
+      <div class="currently-card reveal delay-2">
+        <span class="currently-icon">🗺️</span>
+        <p class="currently-context">Current passion project</p>
+        <p class="currently-item">The NRI Bride's Playbook</p>
+        <p class="currently-detail">For the Indian bride with seventeen tabs open and a spreadsheet for everything. Building the thing I wish existed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I WORK -->
+  <section class="how-section">
+    <div class="reveal">
+      <p class="how-label">How I work</p>
+      <h2 class="how-title">Miro is my <em>best friend.</em></h2>
+      <p class="how-p">My thinking is visual before it is verbal. I reach for a mind map the way other people may reach for a notepad. By the time an idea becomes a sentence, it has usually already been a cluster of sticky notes, a web of connections, and several failed diagrams.</p>
+      <p class="how-p">I work best in the messy middle of a project, when the research is in progress and the direction is vague. That is the moment I find most energising, and where I think I add the most value.</p>
+    </div>
+    <div class="how-traits reveal delay-1">
+      <div class="how-trait">
+        <span class="how-trait-num">01</span>
+        <p class="how-trait-text"><strong>Mind maps first, always.</strong> Every project starts on a Miro board. I map before I plan, and I plan before I design.</p>
+      </div>
+      <div class="how-trait">
+        <span class="how-trait-num">02</span>
+        <p class="how-trait-text"><strong>I talk to a lot of people.</strong> I believe data does not tell you what it feels like to navigate a broken system.</p>
+      </div>
+      <div class="how-trait">
+        <span class="how-trait-num">03</span>
+        <p class="how-trait-text"><strong>I love to plan.</strong> Behind every project (work or personal) is my trusty repertoire of Asana, Notion and colour-coded spreadsheets. </p>
+      </div>
+      <div class="how-trait">
+        <span class="how-trait-num">04</span>
+        <p class="how-trait-text"><strong>I sit with ambiguity.</strong> Three years of a PhD teaches you not to panic when there is no answer yet. The answer usually comes if you ask the right questions or change your perspective.</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ── EXPERIENCE ─────────────────────────────────────────────────────────── -->
+  <section class="exp-edu-section">
+    <div class="exp-header">
+      <div class="exp-label reveal">Experience</div>
+      <p class="exp-intro reveal delay-1">A track record across doctoral research, public sector service design, and independent practice with a consistent thread of participatory, creative work.</p>
+    </div>
+
+    <div class="exp-list">
+
+      <!-- Footwork Trust — Researcher & Designer (most recent) -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">March 2025 – Dec 2025</p>
+          <p class="exp-org">Footwork Trust</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Researcher &amp; Designer</h3>
+          <ul class="exp-points">
+            <li>Developed Communities for Health, a strategic design research project generating policy evidence on community-led health innovation and neighbourhood services across the UK through mapping and analysis of innovation projects.</li>
+            <li>Designed and facilitated co-creation and design thinking workshops with stakeholders, translating complex findings into prioritised, actionable journey recommendations for senior audiences.</li>
+            <li>Produced high-quality written research outputs including briefings, visual summaries and a public-facing website presenting findings and design recommendations clearly to senior stakeholder audiences.</li>
+            <li>Applied iterative feedback loops with health innovators and policymakers, embedding agile and responsive ways of improving research outputs for improved clarity and audience buy-in.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Service Design</span>
+            <span class="exp-tag">Health Policy</span>
+            <span class="exp-tag">Co-creation</span>
+            <span class="exp-tag">Agile Delivery</span>
+            <span class="exp-tag">Stakeholder Engagement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loughborough — Doctoral Researcher -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">Jan 2022 – Oct 2025</p>
+          <p class="exp-org">Loughborough University, London</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Doctoral Researcher</h3>
+          <ul class="exp-points">
+            <li>Led a fully funded, multi-phase user research programme over 3.5 years, independently scoping, planning and executing a complex mixed-methods study on participatory design and community-led urban change across 100+ participants.</li>
+            <li>Applied a broad range of research methods including ethnographic fieldwork, qualitative interviews, participatory action research, documentary analysis and surveys, selecting methods based on research questions and participant context.</li>
+            <li>Synthesised complex qualitative and ethnographic datasets into frameworks and tools subsequently adopted by Footwork Trust, demonstrating the ability to translate insight into practical, measurable change.</li>
+            <li>Leveraged AI tools to accelerate literature synthesis, qualitative analysis and pattern identification, applying emerging technologies pragmatically to improve research and design workflow efficiency.</li>
+            <li>Presented research at conferences and internal forums; produced outputs for both technical and non-specialist audiences.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Ethnographic Research</span>
+            <span class="exp-tag">Mixed Methods</span>
+            <span class="exp-tag">Participatory Design</span>
+            <span class="exp-tag">Research Synthesis</span>
+            <span class="exp-tag">Longitudinal Study</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footwork Trust — Researcher (Learning Framework) -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">Feb 2023 – Oct 2024</p>
+          <p class="exp-org">Footwork Trust</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Researcher — Learning Framework</h3>
+          <ul class="exp-points">
+            <li>Designed and implemented an organisational Learning Framework applied across a national funding programme, People and Place, distributing £200,000 across 20 community innovation projects — embedding behaviour change principles and reflective practice into programme delivery.</li>
+            <li>Designed and facilitated participatory learning day visits functioning as rich contextual research and engagement events, co-designed with participants and adapted to different local contexts, stakeholder needs and accessibility requirements.</li>
+            <li>Conducted mixed user research across 100+ participants including community innovators, residents, councillors, policymakers and funders, applying a range of methods to uncover nuanced user needs and service pain points.</li>
+            <li>Managed multiple senior stakeholder relationships simultaneously — councillors, policymakers, funders, community innovators and residents — maintaining trust and alignment across a complex programme landscape.</li>
+            <li>Deployed service design methods including journey maps, service maps, ecosystem maps, collaborative documentary film and written blogs, translating findings into clear recommendations for senior decision-makers and funders.</li>
+            <li>Applied Government Digital Service (GDS) standards and agile working practices to improve delivery and evidence base of housing and community programmes through a user-centred approach.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Learning Design</span>
+            <span class="exp-tag">Journey Mapping</span>
+            <span class="exp-tag">Co-Design</span>
+            <span class="exp-tag">Agile Delivery</span>
+            <span class="exp-tag">Systems Mapping</span>
+            <span class="exp-tag">Behaviour Change</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Tutor -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">Jan 2023 – Feb 2024</p>
+          <p class="exp-org">Loughborough University, London</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Course Tutor (Postgraduate)</h3>
+          <ul class="exp-points">
+            <li>Delivered postgraduate seminars for the Design and Identity module, using compelling narrative storytelling and presentation skills to communicate complex ideas on identity, culture, and spatial practice.</li>
+            <li>Provided individual coaching and feedback, helping students articulate design decisions clearly and build confidence in presenting their work to diverse audiences.</li>
+            <li>Contributed to curriculum development through structured feedback, working to improve the overall learning experience and raise the standard of student output.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Teaching</span>
+            <span class="exp-tag">Curriculum Design</span>
+            <span class="exp-tag">Coaching</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Assistant -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">Aug 2023 – Oct 2023</p>
+          <p class="exp-org">Loughborough University, London</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Research Assistant</h3>
+          <ul class="exp-points">
+            <li>Conducted interdisciplinary research exploring the interrelationship of quality sleep, energy consumption and construction strategy, framing findings to meet predetermined research objectives.</li>
+            <li>Applied mixed-methods research incorporating qualitative and quantitative user research to uncover nuanced user needs, behaviours and feedback.</li>
+            <li>Produced data-driven insights to facilitate future research iteration and strategic decision-making.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Mixed Methods</span>
+            <span class="exp-tag">Quantitative Research</span>
+            <span class="exp-tag">Research Ethics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camden Shares -->
+      <div class="exp-item reveal">
+        <div>
+          <p class="exp-date">2021</p>
+          <p class="exp-org">Camden Council &amp; UAL</p>
+        </div>
+        <div>
+          <h3 class="exp-role">Service Designer as part of Masters</h3>
+          <ul class="exp-points">
+            <li>Led ethnographic research and co-design workshops to understand trust barriers between families and Early Help services in the London Borough of Camden.</li>
+            <li>Designed and iterated reflective practice tools adopted by frontline workers, improving relational continuity between service providers and families.</li>
+            <li>Delivered synthesis presentations to senior leadership described as among the most impactful the team had received, directly influencing strategic service decisions.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Co-Design</span>
+            <span class="exp-tag">Public Sector</span>
+            <span class="exp-tag">Ethnography</span>
+            <span class="exp-tag">Service Strategy</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── EDUCATION ──────────────────────────────── -->
+    <div class="exp-header" style="margin-top: 0;">
+      <div class="exp-label reveal">Education</div>
+      <p class="exp-intro reveal delay-1">Academically rigorous training across design, service design, and research with distinction and award recognition at every level.</p>
+    </div>
+
+    <div class="exp-list">
+
+      <div class="edu-item reveal">
+        <div>
+          <p class="edu-date">2022 – Oct 2025</p>
+          <p class="edu-inst">Loughborough University, London</p>
+        </div>
+        <div>
+          <h3 class="edu-degree">PhD — Design Innovation</h3>
+          <p class="edu-award">Awarded Arts &amp; Humanities Research Council (AHRC) Technē Doctoral Training Partnership Grant and scholarship — valued at approximately £150,000. Research focused on participatory design, community-led urban change, and design activism.</p>
+        </div>
+      </div>
+
+      <div class="edu-item reveal">
+        <div>
+          <p class="edu-date">2020 – 2021</p>
+          <p class="edu-inst">University of the Arts, London</p>
+        </div>
+        <div>
+          <h3 class="edu-degree">MA Service Design</h3>
+          <p class="edu-grade">Grade: Distinction</p>
+          <p class="edu-award">Collaborative Major Project with internship at Vuslat Foundation (May – Dec 2021). Projects included Camden Shares (Camden Council &amp; UAL), Our Herd (Vuslat Foundation &amp; Triyoke), Creative Host and Green Patch (Southwark Council).</p>
+        </div>
+      </div>
+
+      <div class="edu-item reveal">
+        <div>
+          <p class="edu-date">2017 – 2020</p>
+          <p class="edu-inst">Lancaster University</p>
+        </div>
+        <div>
+          <h3 class="edu-degree">BA (Hons) Design</h3>
+          <p class="edu-grade">Grade: First Class</p>
+          <p class="edu-award">LICA Award for Outstanding Academic Achievement in Design. Gold Lancaster Award.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="about-contact reveal">
+    <div>
+      <h2 class="about-contact-title">Want to <em>work together?</em></h2>
+      <p class="about-contact-sub">I am open to service design and user research roles. Let's talk.</p>
+    </div>
+    <div class="about-contact-links">
+      <!-- UPDATE EMAIL -->
+      <a href="mailto:devikasharma1219@gmail.com" class="about-contact-link">Email me</a>
+      <a href="https://www.linkedin.com/in/devika-sharma-4a5a03180/" target="_blank" class="about-contact-link">LinkedIn</a>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2025 Devika Sharma · Service Designer &amp; User Researcher</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="https://www.linkedin.com/in/devika-sharma-4a5a03180/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring')
+    let mx=0,my=0,rx=0,ry=0
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'})
+    ;(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})()
+    document.querySelectorAll('a,button,.belief,.how-trait,.currently-card').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'))
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'))
+    })
+    const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.1})
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el))
+  </script>
+</body>
+</html>
